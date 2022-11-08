@@ -1,11 +1,13 @@
 package pwo.seq;
 
 import java.math.BigDecimal;
+
 import pwo.utils.SequenceGenerator;
 
 abstract class Generator implements SequenceGenerator {
 
     protected int lastIndex = 0;
+    protected int currentIndex = 0;
     protected BigDecimal current = null,
             f_1 = null,
             f_2 = null,
@@ -14,6 +16,7 @@ abstract class Generator implements SequenceGenerator {
     @Override
     public void reset() {
         lastIndex = 0;
+
     }
 
     @Override
@@ -21,9 +24,15 @@ abstract class Generator implements SequenceGenerator {
         if (i < 0) {
             throw new IllegalArgumentException();
         }
+
+        currentIndex = i;
         if (i < lastIndex) {
-            reset();
+           while (i < lastIndex)
+           {
+               lastIndex--;
+           }
         }
+
         while (lastIndex <= i) {
             nextTerm();
         }
